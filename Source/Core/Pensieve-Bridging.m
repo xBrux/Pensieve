@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-#import "SQLite-Bridging.h"
+#import "Pensieve-Bridging.h"
 
 #ifdef COCOAPODS
 #import "sqlite3.h"

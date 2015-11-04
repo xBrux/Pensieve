@@ -126,7 +126,7 @@ public struct Tokenizer {
         self.arguments = arguments
     }
 
-    private static let moduleName = "SQLite.swift"
+    private static let moduleName = "Pensieve.swift"
 
 }
 

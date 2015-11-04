@@ -1,5 +1,5 @@
 #include "../Base.xcconfig"
 
-PRODUCT_NAME = SQLite
+PRODUCT_NAME = Pensieve
 
 OTHER_LDFLAGS = -lsqlite3

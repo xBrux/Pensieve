@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 //
 
+
 /// A single SQL statement.
 public final class Statement {
 
@@ -29,9 +30,16 @@ public final class Statement {
 
     private let connection: Connection
 
-    init(_ connection: Connection, _ SQL: String) {
+    init(_ connection: Connection, _ SQL: String) throws {
         self.connection = connection
-        try! connection.check(sqlite3_prepare_v2(connection.handle, SQL, -1, &handle, nil))
+        
+        do {
+            try connection.check(sqlite3_prepare_v2(connection.handle, SQL, -1, &handle, nil))
+        } catch {
+            print(error)
+            guard let e = error as? Result else { throw PensieveError.Unknown(message: "Unknown") }
+            throw PensieveError(sqliteError: e)
+        }
     }
 
     deinit {
