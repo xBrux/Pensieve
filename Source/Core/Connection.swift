@@ -25,10 +25,10 @@
 import Dispatch
 
 /// A connection to SQLite.
-public final class Connection {
+/*public*/ final class Connection {
 
     /// The location of a SQLite database.
-    public enum Location {
+    /*public*/ enum Location {
 
         /// An in-memory database (equivalent to `.URI(":memory:")`).
         ///
@@ -48,7 +48,7 @@ public final class Connection {
         case URI(String)
     }
 
-    public var handle: COpaquePointer { return _handle }
+    /*public*/ var handle: COpaquePointer { return _handle }
 
     private var _handle: COpaquePointer = nil
 
@@ -66,7 +66,7 @@ public final class Connection {
     ///     Default: `false`.
     ///
     /// - Returns: A new database connection.
-    public init(_ location: Location = .InMemory, readonly: Bool = false) throws {
+    /*public*/ init(_ location: Location = .InMemory, readonly: Bool = false) throws {
         let flags = readonly ? SQLITE_OPEN_READONLY : SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE
         try check(sqlite3_open_v2(location.description, &_handle, flags | SQLITE_OPEN_FULLMUTEX, nil))
         dispatch_queue_set_specific(queue, Connection.queueKey, queueContext, nil)
@@ -86,7 +86,7 @@ public final class Connection {
     /// - Throws: `Result.Error` iff a connection cannot be established.
     ///
     /// - Returns: A new database connection.
-    public convenience init(_ filename: String, readonly: Bool = false) throws {
+    /*public*/ convenience init(_ filename: String, readonly: Bool = false) throws {
         try self.init(.URI(filename), readonly: readonly)
     }
 
@@ -97,23 +97,23 @@ public final class Connection {
     // MARK: -
 
     /// Whether or not the database was opened in a read-only state.
-    public var readonly: Bool { return sqlite3_db_readonly(handle, nil) == 1 }
+    /*public*/ var readonly: Bool { return sqlite3_db_readonly(handle, nil) == 1 }
 
     /// The last rowid inserted into the database via this connection.
-    public var lastInsertRowid: Int64? {
+    /*public*/ var lastInsertRowid: Int64? {
         let rowid = sqlite3_last_insert_rowid(handle)
         return rowid > 0 ? rowid : nil
     }
 
     /// The last number of changes (inserts, updates, or deletes) made to the
     /// database via this connection.
-    public var changes: Int {
+    /*public*/ var changes: Int {
         return Int(sqlite3_changes(handle))
     }
 
     /// The total number of changes (inserts, updates, or deletes) made to the
     /// database via this connection.
-    public var totalChanges: Int {
+    /*public*/ var totalChanges: Int {
         return Int(sqlite3_total_changes(handle))
     }
 
@@ -125,7 +125,7 @@ public final class Connection {
     ///   statements.
     ///
     /// - Throws: `Result.Error` if query execution fails.
-    public func execute(SQL: String) throws {
+    /*public*/ func execute(SQL: String) throws {
         try sync { try self.check(sqlite3_exec(self.handle, SQL, nil, nil, nil)) }
     }
 
@@ -140,7 +140,7 @@ public final class Connection {
     ///   - bindings: A list of parameters to bind to the statement.
     ///
     /// - Returns: A prepared statement.
-    @warn_unused_result public func prepare(sqlString: String, _ bindings: Binding?...) throws -> Statement {
+    @warn_unused_result /*public*/ func prepare(sqlString: String, _ bindings: Binding?...) throws -> Statement {
         if !bindings.isEmpty {
             return try prepare(sqlString, bindings)
         } else {
@@ -158,7 +158,7 @@ public final class Connection {
     ///   - bindings: A list of parameters to bind to the statement.
     ///
     /// - Returns: A prepared statement.
-    @warn_unused_result public func prepare(sqlString: String, _ bindings: [Binding?]) throws -> Statement {
+    @warn_unused_result /*public*/ func prepare(sqlString: String, _ bindings: [Binding?]) throws -> Statement {
         return try prepare(sqlString).bind(bindings)
     }
 
@@ -171,7 +171,7 @@ public final class Connection {
     ///   - bindings: A dictionary of named parameters to bind to the statement.
     ///
     /// - Returns: A prepared statement.
-    @warn_unused_result public func prepare(sqlString: String, _ bindings: [String: Binding?]) throws -> Statement {
+    @warn_unused_result /*public*/ func prepare(sqlString: String, _ bindings: [String: Binding?]) throws -> Statement {
         return try prepare(sqlString).bind(bindings)
     }
 
@@ -188,7 +188,7 @@ public final class Connection {
     /// - Throws: `Result.Error` if query execution fails.
     ///
     /// - Returns: The statement.
-    public func run(sqlString: String, _ bindings: Binding?...) throws -> Statement {
+    /*public*/ func run(sqlString: String, _ bindings: Binding?...) throws -> Statement {
         return try run(sqlString, bindings)
     }
 
@@ -203,7 +203,7 @@ public final class Connection {
     /// - Throws: `Result.Error` if query execution fails.
     ///
     /// - Returns: The statement.
-    public func run(sqlString: String, _ bindings: [Binding?]) throws -> Statement {
+    /*public*/ func run(sqlString: String, _ bindings: [Binding?]) throws -> Statement {
         return try prepare(sqlString).run(bindings)
     }
 
@@ -218,7 +218,7 @@ public final class Connection {
     /// - Throws: `Result.Error` if query execution fails.
     ///
     /// - Returns: The statement.
-    public func run(sqlString: String, _ bindings: [String: Binding?]) throws -> Statement {
+    /*public*/ func run(sqlString: String, _ bindings: [String: Binding?]) throws -> Statement {
         return try prepare(sqlString).run(bindings)
     }
 
@@ -234,7 +234,7 @@ public final class Connection {
     ///   - bindings: A list of parameters to bind to the statement.
     ///
     /// - Returns: The first value of the first row returned.
-    @warn_unused_result public func scalar(sqlString: String, _ bindings: Binding?...) throws -> Binding? {
+    @warn_unused_result /*public*/ func scalar(sqlString: String, _ bindings: Binding?...) throws -> Binding? {
         return try scalar(sqlString, bindings)
     }
 
@@ -248,7 +248,7 @@ public final class Connection {
     ///   - bindings: A list of parameters to bind to the statement.
     ///
     /// - Returns: The first value of the first row returned.
-    @warn_unused_result public func scalar(sqlString: String, _ bindings: [Binding?]) throws -> Binding? {
+    @warn_unused_result /*public*/ func scalar(sqlString: String, _ bindings: [Binding?]) throws -> Binding? {
         return try prepare(sqlString).scalar(bindings)
     }
 
@@ -262,14 +262,14 @@ public final class Connection {
     ///   - bindings: A dictionary of named parameters to bind to the statement.
     ///
     /// - Returns: The first value of the first row returned.
-    @warn_unused_result public func scalar(sqlString: String, _ bindings: [String: Binding?]) throws -> Binding? {
+    @warn_unused_result /*public*/ func scalar(sqlString: String, _ bindings: [String: Binding?]) throws -> Binding? {
         return try prepare(sqlString).scalar(bindings)
     }
 
     // MARK: - Transactions
 
     /// The mode in which a transaction acquires a lock.
-    public enum TransactionMode : String {
+    /*public*/ enum TransactionMode : String {
 
         /// Defers locking the database till the first read/write executes.
         case Deferred = "DEFERRED"
@@ -299,7 +299,7 @@ public final class Connection {
     ///     must throw to roll the transaction back.
     ///
     /// - Throws: `Result.Error`, and rethrows.
-    public func transaction(mode: TransactionMode = .Deferred, block: () throws -> Void) throws {
+    /*public*/ func transaction(mode: TransactionMode = .Deferred, block: () throws -> Void) throws {
         try transaction("BEGIN \(mode.rawValue) TRANSACTION", block, "COMMIT TRANSACTION", or: "ROLLBACK TRANSACTION")
     }
 
@@ -319,7 +319,7 @@ public final class Connection {
     ///     The block must throw to roll the savepoint back.
     ///
     /// - Throws: `SQLite.Result.Error`, and rethrows.
-    public func savepoint(name: String = NSUUID().UUIDString, block: () throws -> Void) throws {
+    /*public*/ func savepoint(name: String = NSUUID().UUIDString, block: () throws -> Void) throws {
         let name = name.quote("'")
         let savepoint = "SAVEPOINT \(name)"
 
@@ -340,7 +340,7 @@ public final class Connection {
     }
 
     /// Interrupts any long-running queries.
-    public func interrupt() {
+    /*public*/ func interrupt() {
         sqlite3_interrupt(handle)
     }
 
@@ -348,7 +348,7 @@ public final class Connection {
 
     /// The number of seconds a connection will attempt to retry a statement
     /// after encountering a busy signal (lock).
-    public var busyTimeout: Double = 0 {
+    /*public*/ var busyTimeout: Double = 0 {
         didSet {
             sqlite3_busy_timeout(handle, Int32(busyTimeout * 1_000))
         }
@@ -360,7 +360,7 @@ public final class Connection {
     ///   busy error would otherwise be returned. It’s passed the number of
     ///   times it’s been called for this lock. If it returns `true`, it will
     ///   try again. If it returns `false`, no further attempts will be made.
-    public func busyHandler(callback: ((tries: Int) -> Bool)?) {
+    /*public*/ func busyHandler(callback: ((tries: Int) -> Bool)?) {
         guard let callback = callback else {
             sqlite3_busy_handler(handle, nil, nil)
             busyHandler = nil
@@ -383,7 +383,7 @@ public final class Connection {
     ///   with the compiled SQL as its argument.
     ///
     ///       db.trace { SQL in print(SQL) }
-    public func trace(callback: (String -> Void)?) {
+    /*public*/ func trace(callback: (String -> Void)?) {
         guard let callback = callback else {
             sqlite3_trace(handle, nil, nil)
             trace = nil
@@ -405,7 +405,7 @@ public final class Connection {
     /// - Parameter callback: A callback invoked with the `Operation` (one of
     ///   `.Insert`, `.Update`, or `.Delete`), database name, table name, and
     ///   rowid.
-    public func updateHook(callback: ((operation: Operation, db: String, table: String, rowid: Int64) -> Void)?) {
+    /*public*/ func updateHook(callback: ((operation: Operation, db: String, table: String, rowid: Int64) -> Void)?) {
         guard let callback = callback else {
             sqlite3_update_hook(handle, nil, nil)
             updateHook = nil
@@ -433,7 +433,7 @@ public final class Connection {
     /// - Parameter callback: A callback invoked whenever a transaction is
     ///   committed. If this callback throws, the transaction will be rolled
     ///   back.
-    public func commitHook(callback: (() throws -> Void)?) {
+    /*public*/ func commitHook(callback: (() throws -> Void)?) {
         guard let callback = callback else {
             sqlite3_commit_hook(handle, nil, nil)
             commitHook = nil
@@ -460,7 +460,7 @@ public final class Connection {
     ///
     /// - Parameter callback: A callback invoked when a transaction is rolled
     ///   back.
-    public func rollbackHook(callback: (() -> Void)?) {
+    /*public*/ func rollbackHook(callback: (() -> Void)?) {
         guard let callback = callback else {
             sqlite3_rollback_hook(handle, nil, nil)
             rollbackHook = nil
@@ -495,7 +495,7 @@ public final class Connection {
     ///   - block: A block of code to run when the function is called. The block
     ///     is called with an array of raw SQL values mapped to the function’s
     ///     parameters and should return a raw SQL value (or nil).
-    public func createFunction(function: String, argumentCount: UInt? = nil, deterministic: Bool = false, _ block: (args: [Binding?]) -> Binding?) {
+    /*public*/ func createFunction(function: String, argumentCount: UInt? = nil, deterministic: Bool = false, _ block: (args: [Binding?]) -> Binding?) {
         let argc = argumentCount.map { Int($0) } ?? -1
         let box: Function = { context, argc, argv in
             let arguments: [Binding?] = (0..<Int(argc)).map { idx in
@@ -544,7 +544,7 @@ public final class Connection {
     private var functions = [String: [Int: Function]]()
 
     /// The return type of a collation comparison function.
-    public typealias ComparisonResult = NSComparisonResult
+    /*public*/ typealias ComparisonResult = NSComparisonResult
 
     /// Defines a new collating sequence.
     ///
@@ -554,7 +554,7 @@ public final class Connection {
     ///
     ///   - block: A collation function that takes two strings and returns the
     ///     comparison result.
-    public func createCollation(collation: String, _ block: (lhs: String, rhs: String) -> ComparisonResult) {
+    /*public*/ func createCollation(collation: String, _ block: (lhs: String, rhs: String) -> ComparisonResult) {
         let box: Collation = { lhs, rhs in
             Int32(block(lhs: String.fromCString(UnsafePointer<Int8>(lhs))!, rhs: String.fromCString(UnsafePointer<Int8>(rhs))!).rawValue)
         }
@@ -611,7 +611,7 @@ public final class Connection {
 
 extension Connection : CustomStringConvertible {
 
-    public var description: String {
+    /*public*/ var description: String {
         return String.fromCString(sqlite3_db_filename(handle, nil))!
     }
 
@@ -619,7 +619,7 @@ extension Connection : CustomStringConvertible {
 
 extension Connection.Location : CustomStringConvertible {
 
-    public var description: String {
+    /*public*/ var description: String {
         switch self {
         case .InMemory:
             return ":memory:"
@@ -633,7 +633,7 @@ extension Connection.Location : CustomStringConvertible {
 }
 
 /// An SQL operation passed to update callbacks.
-public enum Operation {
+/*public*/ enum Operation {
 
     /// An INSERT operation.
     case Insert
@@ -659,7 +659,7 @@ public enum Operation {
 
 }
 
-public enum Result : ErrorType {
+/*public*/ enum Result : ErrorType {
 
     private static let successCodes: Set = [SQLITE_OK, SQLITE_ROW, SQLITE_DONE]
 
@@ -676,7 +676,7 @@ public enum Result : ErrorType {
 
 extension Result : CustomStringConvertible {
 
-    public var description: String {
+    /*public*/ var description: String {
         switch self {
         case let .Error(message, _, statement):
             guard let statement = statement else { return message }

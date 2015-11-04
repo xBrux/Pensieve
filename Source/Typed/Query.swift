@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-public protocol QueryType : Expressible {
+/*public*/ protocol QueryType : Expressible {
 
     var clauses: QueryClauses { get set }
 
@@ -30,7 +30,7 @@ public protocol QueryType : Expressible {
 
 }
 
-public protocol SchemaType : QueryType {
+/*public*/ protocol SchemaType : QueryType {
 
     static var identifier: String { get }
 
@@ -50,7 +50,7 @@ extension SchemaType {
     /// - Parameter all: A list of expressions to select.
     ///
     /// - Returns: A query with the given `SELECT` clause applied.
-    public func select(column1: Expressible, _ column2: Expressible, _ more: Expressible...) -> Self {
+    /*public*/ func select(column1: Expressible, _ column2: Expressible, _ more: Expressible...) -> Self {
         return select(false, [column1, column2] + more)
     }
 
@@ -65,7 +65,7 @@ extension SchemaType {
     /// - Parameter columns: A list of expressions to select.
     ///
     /// - Returns: A query with the given `SELECT DISTINCT` clause applied.
-    public func select(distinct column1: Expressible, _ column2: Expressible, _ more: Expressible...) -> Self {
+    /*public*/ func select(distinct column1: Expressible, _ column2: Expressible, _ more: Expressible...) -> Self {
         return select(true, [column1, column2] + more)
     }
 
@@ -81,7 +81,7 @@ extension SchemaType {
     /// - Parameter all: A list of expressions to select.
     ///
     /// - Returns: A query with the given `SELECT` clause applied.
-    public func select(all: [Expressible]) -> Self {
+    /*public*/ func select(all: [Expressible]) -> Self {
         return select(false, all)
     }
 
@@ -96,7 +96,7 @@ extension SchemaType {
     /// - Parameter columns: A list of expressions to select.
     ///
     /// - Returns: A query with the given `SELECT DISTINCT` clause applied.
-    public func select(distinct columns: [Expressible]) -> Self {
+    /*public*/ func select(distinct columns: [Expressible]) -> Self {
         return select(true, columns)
     }
 
@@ -110,7 +110,7 @@ extension SchemaType {
     /// - Parameter star: A star literal.
     ///
     /// - Returns: A query with the given `SELECT *` clause applied.
-    public func select(star: Star) -> Self {
+    /*public*/ func select(star: Star) -> Self {
         return select([star(nil, nil)])
     }
 
@@ -124,7 +124,7 @@ extension SchemaType {
     /// - Parameter star: A star literal.
     ///
     /// - Returns: A query with the given `SELECT DISTINCT *` clause applied.
-    public func select(distinct star: Star) -> Self {
+    /*public*/ func select(distinct star: Star) -> Self {
         return select(distinct: [star(nil, nil)])
     }
 
@@ -139,10 +139,10 @@ extension SchemaType {
     /// - Parameter all: A list of expressions to select.
     ///
     /// - Returns: A query with the given `SELECT` clause applied.
-    public func select<V : Value>(column: Expression<V>) -> ScalarQuery<V> {
+    /*public*/ func select<V : Value>(column: Expression<V>) -> ScalarQuery<V> {
         return select(false, [column])
     }
-    public func select<V : Value>(column: Expression<V?>) -> ScalarQuery<V?> {
+    /*public*/ func select<V : Value>(column: Expression<V?>) -> ScalarQuery<V?> {
         return select(false, [column])
     }
 
@@ -158,14 +158,14 @@ extension SchemaType {
     /// - Parameter column: A list of expressions to select.
     ///
     /// - Returns: A query with the given `SELECT DISTINCT` clause applied.
-    public func select<V : Value>(distinct column: Expression<V>) -> ScalarQuery<V> {
+    /*public*/ func select<V : Value>(distinct column: Expression<V>) -> ScalarQuery<V> {
         return select(true, [column])
     }
-    public func select<V : Value>(distinct column: Expression<V?>) -> ScalarQuery<V?> {
+    /*public*/ func select<V : Value>(distinct column: Expression<V?>) -> ScalarQuery<V?> {
         return select(true, [column])
     }
 
-    public var count: ScalarQuery<Int> {
+    /*public*/ var count: ScalarQuery<Int> {
         return select(Expression.count(*))
     }
 
@@ -199,7 +199,7 @@ extension QueryType {
     ///   - condition: A boolean expression describing the join condition.
     ///
     /// - Returns: A query with the given `JOIN` clause applied.
-    public func join(table: QueryType, on condition: Expression<Bool>) -> Self {
+    /*public*/ func join(table: QueryType, on condition: Expression<Bool>) -> Self {
         return join(table, on: Expression<Bool?>(condition))
     }
 
@@ -220,7 +220,7 @@ extension QueryType {
     ///   - condition: A boolean expression describing the join condition.
     ///
     /// - Returns: A query with the given `JOIN` clause applied.
-    public func join(table: QueryType, on condition: Expression<Bool?>) -> Self {
+    /*public*/ func join(table: QueryType, on condition: Expression<Bool?>) -> Self {
         return join(.Inner, table, on: condition)
     }
 
@@ -243,7 +243,7 @@ extension QueryType {
     ///   - condition: A boolean expression describing the join condition.
     ///
     /// - Returns: A query with the given `JOIN` clause applied.
-    public func join(type: JoinType, _ table: QueryType, on condition: Expression<Bool>) -> Self {
+    /*public*/ func join(type: JoinType, _ table: QueryType, on condition: Expression<Bool>) -> Self {
         return join(type, table, on: Expression<Bool?>(condition))
     }
 
@@ -266,7 +266,7 @@ extension QueryType {
     ///   - condition: A boolean expression describing the join condition.
     ///
     /// - Returns: A query with the given `JOIN` clause applied.
-    public func join(type: JoinType, _ table: QueryType, on condition: Expression<Bool?>) -> Self {
+    /*public*/ func join(type: JoinType, _ table: QueryType, on condition: Expression<Bool?>) -> Self {
         var query = self
         query.clauses.join.append((type: type, query: table, condition: table.clauses.filters.map { condition && $0 } ?? condition as Expressible))
         return query
@@ -285,7 +285,7 @@ extension QueryType {
     /// - Parameter condition: A boolean expression to filter on.
     ///
     /// - Returns: A query with the given `WHERE` clause applied.
-    public func filter(predicate: Expression<Bool>) -> Self {
+    /*public*/ func filter(predicate: Expression<Bool>) -> Self {
         return filter(Expression<Bool?>(predicate))
     }
 
@@ -300,7 +300,7 @@ extension QueryType {
     /// - Parameter condition: A boolean expression to filter on.
     ///
     /// - Returns: A query with the given `WHERE` clause applied.
-    public func filter(predicate: Expression<Bool?>) -> Self {
+    /*public*/ func filter(predicate: Expression<Bool?>) -> Self {
         var query = self
         query.clauses.filters = query.clauses.filters.map { $0 && predicate } ?? predicate
         return query
@@ -313,7 +313,7 @@ extension QueryType {
     /// - Parameter by: A list of columns to group by.
     ///
     /// - Returns: A query with the given `GROUP BY` clause applied.
-    public func group(by: Expressible...) -> Self {
+    /*public*/ func group(by: Expressible...) -> Self {
         return group(by)
     }
 
@@ -322,7 +322,7 @@ extension QueryType {
     /// - Parameter by: A list of columns to group by.
     ///
     /// - Returns: A query with the given `GROUP BY` clause applied.
-    public func group(by: [Expressible]) -> Self {
+    /*public*/ func group(by: [Expressible]) -> Self {
         return group(by, nil)
     }
 
@@ -335,7 +335,7 @@ extension QueryType {
     ///   - having: A condition determining which groups are returned.
     ///
     /// - Returns: A query with the given `GROUP BY`–`HAVING` clause applied.
-    public func group(by: Expressible, having: Expression<Bool>) -> Self {
+    /*public*/ func group(by: Expressible, having: Expression<Bool>) -> Self {
         return group([by], having: having)
     }
 
@@ -348,7 +348,7 @@ extension QueryType {
     ///   - having: A condition determining which groups are returned.
     ///
     /// - Returns: A query with the given `GROUP BY`–`HAVING` clause applied.
-    public func group(by: Expressible, having: Expression<Bool?>) -> Self {
+    /*public*/ func group(by: Expressible, having: Expression<Bool?>) -> Self {
         return group([by], having: having)
     }
 
@@ -361,7 +361,7 @@ extension QueryType {
     ///   - having: A condition determining which groups are returned.
     ///
     /// - Returns: A query with the given `GROUP BY`–`HAVING` clause applied.
-    public func group(by: [Expressible], having: Expression<Bool>) -> Self {
+    /*public*/ func group(by: [Expressible], having: Expression<Bool>) -> Self {
         return group(by, Expression<Bool?>(having))
     }
 
@@ -374,7 +374,7 @@ extension QueryType {
     ///   - having: A condition determining which groups are returned.
     ///
     /// - Returns: A query with the given `GROUP BY`–`HAVING` clause applied.
-    public func group(by: [Expressible], having: Expression<Bool?>) -> Self {
+    /*public*/ func group(by: [Expressible], having: Expression<Bool?>) -> Self {
         return group(by, having)
     }
 
@@ -398,7 +398,7 @@ extension QueryType {
     /// - Parameter by: An ordered list of columns and directions to sort by.
     ///
     /// - Returns: A query with the given `ORDER BY` clause applied.
-    public func order(by: Expressible...) -> Self {
+    /*public*/ func order(by: Expressible...) -> Self {
         var query = self
         query.clauses.order = by
         return query
@@ -417,7 +417,7 @@ extension QueryType {
     ///   return unlimited rows).
     ///
     /// - Returns: A query with the given LIMIT clause applied.
-    public func limit(length: Int?) -> Self {
+    /*public*/ func limit(length: Int?) -> Self {
         return limit(length, nil)
     }
 
@@ -435,7 +435,7 @@ extension QueryType {
     ///   - offset: The number of rows to skip.
     ///
     /// - Returns: A query with the given LIMIT and OFFSET clauses applied.
-    public func limit(length: Int, offset: Int) -> Self {
+    /*public*/ func limit(length: Int, offset: Int) -> Self {
         return limit(length, offset)
     }
 
@@ -540,7 +540,7 @@ extension QueryType {
 
     // MARK: -
 
-    public func alias(aliasName: String) -> Self {
+    /*public*/ func alias(aliasName: String) -> Self {
         var query = self
         query.clauses.from = (clauses.from.name, aliasName, clauses.from.database)
         return query
@@ -550,19 +550,19 @@ extension QueryType {
     //
     // MARK: INSERT
 
-    public func insert(value: Setter, _ more: Setter...) -> Insert {
+    /*public*/ func insert(value: Setter, _ more: Setter...) -> Insert {
         return insert([value] + more)
     }
 
-    public func insert(values: [Setter]) -> Insert {
+    /*public*/ func insert(values: [Setter]) -> Insert {
         return insert(nil, values)
     }
 
-    public func insert(or onConflict: OnConflict, _ values: Setter...) -> Insert {
+    /*public*/ func insert(or onConflict: OnConflict, _ values: Setter...) -> Insert {
         return insert(or: onConflict, values)
     }
 
-    public func insert(or onConflict: OnConflict, _ values: [Setter]) -> Insert {
+    /*public*/ func insert(or onConflict: OnConflict, _ values: [Setter]) -> Insert {
         return insert(onConflict, values)
     }
 
@@ -586,7 +586,7 @@ extension QueryType {
     }
 
     /// Runs an `INSERT` statement against the query with `DEFAULT VALUES`.
-    public func insert() -> Insert {
+    /*public*/ func insert() -> Insert {
         return Insert(" ".join([
             Expression<Void>(literal: "INSERT INTO"),
             tableName(),
@@ -600,7 +600,7 @@ extension QueryType {
     /// - Parameter query: A query to `SELECT` results from.
     ///
     /// - Returns: The number of updated rows and statement.
-    public func insert(query: QueryType) -> Update {
+    /*public*/ func insert(query: QueryType) -> Update {
         return Update(" ".join([
             Expression<Void>(literal: "INSERT INTO"),
             tableName(),
@@ -610,11 +610,11 @@ extension QueryType {
 
     // MARK: UPDATE
 
-    public func update(values: Setter...) -> Update {
+    /*public*/ func update(values: Setter...) -> Update {
         return update(values)
     }
 
-    public func update(values: [Setter]) -> Update {
+    /*public*/ func update(values: [Setter]) -> Update {
         let clauses: [Expressible?] = [
             Expression<Void>(literal: "UPDATE"),
             tableName(),
@@ -628,7 +628,7 @@ extension QueryType {
 
     // MARK: DELETE
 
-    public func delete() -> Delete {
+    /*public*/ func delete() -> Delete {
         let clauses: [Expressible?] = [
             Expression<Void>(literal: "DELETE FROM"),
             tableName(),
@@ -640,7 +640,7 @@ extension QueryType {
 
     // MARK: EXISTS
 
-    public var exists: Select<Bool> {
+    /*public*/ var exists: Select<Bool> {
         return Select(" ".join([
             Expression<Void>(literal: "SELECT EXISTS"),
             "".wrap(expression) as Expression<Void>
@@ -655,51 +655,51 @@ extension QueryType {
     ///
     /// - Returns: A column expression namespaced with the query’s table name or
     ///   alias.
-    public func namespace<V>(column: Expression<V>) -> Expression<V> {
+    /*public*/ func namespace<V>(column: Expression<V>) -> Expression<V> {
         return Expression(".".join([tableName(), column]).expression)
     }
 
     // FIXME: rdar://problem/18673897 // subscript<T>…
 
-    public subscript(column: Expression<Blob>) -> Expression<Blob> {
+    /*public*/ subscript(column: Expression<Blob>) -> Expression<Blob> {
         return namespace(column)
     }
-    public subscript(column: Expression<Blob?>) -> Expression<Blob?> {
-        return namespace(column)
-    }
-
-    public subscript(column: Expression<Bool>) -> Expression<Bool> {
-        return namespace(column)
-    }
-    public subscript(column: Expression<Bool?>) -> Expression<Bool?> {
+    /*public*/ subscript(column: Expression<Blob?>) -> Expression<Blob?> {
         return namespace(column)
     }
 
-    public subscript(column: Expression<Double>) -> Expression<Double> {
+    /*public*/ subscript(column: Expression<Bool>) -> Expression<Bool> {
         return namespace(column)
     }
-    public subscript(column: Expression<Double?>) -> Expression<Double?> {
-        return namespace(column)
-    }
-
-    public subscript(column: Expression<Int>) -> Expression<Int> {
-        return namespace(column)
-    }
-    public subscript(column: Expression<Int?>) -> Expression<Int?> {
+    /*public*/ subscript(column: Expression<Bool?>) -> Expression<Bool?> {
         return namespace(column)
     }
 
-    public subscript(column: Expression<Int64>) -> Expression<Int64> {
+    /*public*/ subscript(column: Expression<Double>) -> Expression<Double> {
         return namespace(column)
     }
-    public subscript(column: Expression<Int64?>) -> Expression<Int64?> {
+    /*public*/ subscript(column: Expression<Double?>) -> Expression<Double?> {
         return namespace(column)
     }
 
-    public subscript(column: Expression<String>) -> Expression<String> {
+    /*public*/ subscript(column: Expression<Int>) -> Expression<Int> {
         return namespace(column)
     }
-    public subscript(column: Expression<String?>) -> Expression<String?> {
+    /*public*/ subscript(column: Expression<Int?>) -> Expression<Int?> {
+        return namespace(column)
+    }
+
+    /*public*/ subscript(column: Expression<Int64>) -> Expression<Int64> {
+        return namespace(column)
+    }
+    /*public*/ subscript(column: Expression<Int64?>) -> Expression<Int64?> {
+        return namespace(column)
+    }
+
+    /*public*/ subscript(column: Expression<String>) -> Expression<String> {
+        return namespace(column)
+    }
+    /*public*/ subscript(column: Expression<String?>) -> Expression<String?> {
         return namespace(column)
     }
 
@@ -709,7 +709,7 @@ extension QueryType {
     ///
     /// - Returns: A `*` expression namespaced with the query’s table name or
     ///   alias.
-    public subscript(star: Star) -> Expression<Void> {
+    /*public*/ subscript(star: Star) -> Expression<Void> {
         return namespace(star(nil, nil))
     }
 
@@ -738,7 +738,7 @@ extension QueryType {
         return ".".join([Expression<Void>(database), name])
     }
 
-    public var expression: Expression<Void> {
+    /*public*/ var expression: Expression<Void> {
         let clauses: [Expressible?] = [
             selectClause,
             joinClause,
@@ -757,37 +757,37 @@ extension QueryType {
 
 /// Queries a collection of chainable helper functions and expressions to build
 /// executable SQL statements.
-public struct Table : SchemaType {
+/*public*/ struct Table : SchemaType {
 
-    public static let identifier = "TABLE"
+    /*public*/ static let identifier = "TABLE"
 
-    public var clauses: QueryClauses
+    /*public*/ var clauses: QueryClauses
 
-    public init(_ name: String, database: String? = nil) {
+    /*public*/ init(_ name: String, database: String? = nil) {
         clauses = QueryClauses(name, alias: nil, database: database)
     }
 
 }
 
-public struct View : SchemaType {
+/*public*/ struct View : SchemaType {
 
-    public static let identifier = "VIEW"
+    /*public*/ static let identifier = "VIEW"
 
-    public var clauses: QueryClauses
+    /*public*/ var clauses: QueryClauses
 
-    public init(_ name: String, database: String? = nil) {
+    /*public*/ init(_ name: String, database: String? = nil) {
         clauses = QueryClauses(name, alias: nil, database: database)
     }
 
 }
 
-public struct VirtualTable : SchemaType {
+/*public*/ struct VirtualTable : SchemaType {
 
-    public static let identifier = "VIRTUAL TABLE"
+    /*public*/ static let identifier = "VIRTUAL TABLE"
 
-    public var clauses: QueryClauses
+    /*public*/ var clauses: QueryClauses
 
-    public init(_ name: String, database: String? = nil) {
+    /*public*/ init(_ name: String, database: String? = nil) {
         clauses = QueryClauses(name, alias: nil, database: database)
     }
 
@@ -795,11 +795,11 @@ public struct VirtualTable : SchemaType {
 
 // TODO: make `ScalarQuery` work in `QueryType.select()`, `.filter()`, etc.
 
-public struct ScalarQuery<V> : QueryType {
+/*public*/ struct ScalarQuery<V> : QueryType {
 
-    public var clauses: QueryClauses
+    /*public*/ var clauses: QueryClauses
 
-    public init(_ name: String, database: String? = nil) {
+    /*public*/ init(_ name: String, database: String? = nil) {
         clauses = QueryClauses(name, alias: nil, database: database)
     }
 
@@ -807,48 +807,48 @@ public struct ScalarQuery<V> : QueryType {
 
 // TODO: decide: simplify the below with a boxed type instead
 
-public struct Select<T> : ExpressionType {
+/*public*/ struct Select<T> : ExpressionType {
 
-    public var template: String
-    public var bindings: [Binding?]
+    /*public*/ var template: String
+    /*public*/ var bindings: [Binding?]
 
-    public init(_ template: String, _ bindings: [Binding?]) {
+    /*public*/ init(_ template: String, _ bindings: [Binding?]) {
         self.template = template
         self.bindings = bindings
     }
 
 }
 
-public struct Insert : ExpressionType {
+/*public*/ struct Insert : ExpressionType {
 
-    public var template: String
-    public var bindings: [Binding?]
+    /*public*/ var template: String
+    /*public*/ var bindings: [Binding?]
 
-    public init(_ template: String, _ bindings: [Binding?]) {
+    /*public*/ init(_ template: String, _ bindings: [Binding?]) {
         self.template = template
         self.bindings = bindings
     }
 
 }
 
-public struct Update : ExpressionType {
+/*public*/ struct Update : ExpressionType {
 
-    public var template: String
-    public var bindings: [Binding?]
+    /*public*/ var template: String
+    /*public*/ var bindings: [Binding?]
 
-    public init(_ template: String, _ bindings: [Binding?]) {
+    /*public*/ init(_ template: String, _ bindings: [Binding?]) {
         self.template = template
         self.bindings = bindings
     }
 
 }
 
-public struct Delete : ExpressionType {
+/*public*/ struct Delete : ExpressionType {
 
-    public var template: String
-    public var bindings: [Binding?]
+    /*public*/ var template: String
+    /*public*/ var bindings: [Binding?]
 
-    public init(_ template: String, _ bindings: [Binding?]) {
+    /*public*/ init(_ template: String, _ bindings: [Binding?]) {
         self.template = template
         self.bindings = bindings
     }
@@ -857,7 +857,7 @@ public struct Delete : ExpressionType {
 
 extension Connection {
 
-    public func prepare(query: QueryType) throws -> AnySequence<Row> {
+    /*public*/ func prepare(query: QueryType) throws -> AnySequence<Row> {
         let expression = query.expression
         let statement = try prepare(expression.template, expression.bindings)
 
@@ -908,29 +908,29 @@ extension Connection {
         }
     }
 
-    public func scalar<V : Value>(query: ScalarQuery<V>) throws -> V {
+    /*public*/ func scalar<V : Value>(query: ScalarQuery<V>) throws -> V {
         let expression = query.expression
         return value( try scalar(expression.template, expression.bindings))
     }
 
-    public func scalar<V : Value>(query: ScalarQuery<V?>) throws -> V.ValueType? {
+    /*public*/ func scalar<V : Value>(query: ScalarQuery<V?>) throws -> V.ValueType? {
         let expression = query.expression
         guard let value = try scalar(expression.template, expression.bindings) as? V.Datatype else { return nil }
         return V.fromDatatypeValue(value)
     }
 
-    public func scalar<V : Value>(query: Select<V>) throws -> V {
+    /*public*/ func scalar<V : Value>(query: Select<V>) throws -> V {
         let expression = query.expression
         return value(try scalar(expression.template, expression.bindings))
     }
 
-    public func scalar<V : Value>(query: Select<V?>) throws ->  V.ValueType? {
+    /*public*/ func scalar<V : Value>(query: Select<V?>) throws ->  V.ValueType? {
         let expression = query.expression
         guard let value = try scalar(expression.template, expression.bindings) as? V.Datatype else { return nil }
         return V.fromDatatypeValue(value)
     }
 
-    public func pluck(query: QueryType) throws -> Row? {
+    /*public*/ func pluck(query: QueryType) throws -> Row? {
         return try prepare(query.limit(1, query.clauses.limit?.offset)).generate().next()
     }
 
@@ -944,7 +944,7 @@ extension Connection {
     /// - Parameter query: An insert query.
     ///
     /// - Returns: The insert’s rowid.
-    public func run(query: Insert) throws -> Int64 {
+    /*public*/ func run(query: Insert) throws -> Int64 {
         let expression = query.expression
         return try sync {
             try self.run(expression.template, expression.bindings)
@@ -960,7 +960,7 @@ extension Connection {
     /// - Parameter query: An update query.
     ///
     /// - Returns: The number of updated rows.
-    public func run(query: Update) throws -> Int {
+    /*public*/ func run(query: Update) throws -> Int {
         let expression = query.expression
         return try sync {
             try self.run(expression.template, expression.bindings)
@@ -975,7 +975,7 @@ extension Connection {
     /// - Parameter query: A delete query.
     ///
     /// - Returns: The number of deleted rows.
-    public func run(query: Delete) throws -> Int {
+    /*public*/ func run(query: Delete) throws -> Int {
         let expression = query.expression
         return try sync {
             try self.run(expression.template, expression.bindings)
@@ -985,7 +985,7 @@ extension Connection {
 
 }
 
-public struct Row {
+/*public*/ struct Row {
 
     private let columnNames: [String: Int]
 
@@ -1001,10 +1001,10 @@ public struct Row {
     /// - Parameter column: An expression representing a column selected in a Query.
     ///
     /// - Returns: The value for the given column.
-    public func get<V: Value>(column: Expression<V>) -> V {
+    /*public*/ func get<V: Value>(column: Expression<V>) -> V {
         return get(Expression<V?>(column))!
     }
-    public func get<V: Value>(column: Expression<V?>) -> V? {
+    /*public*/ func get<V: Value>(column: Expression<V?>) -> V? {
         func valueAtIndex(idx: Int) -> V? {
             guard let value = values[idx] as? V.Datatype else { return nil }
             return (V.fromDatatypeValue(value) as? V)!
@@ -1028,52 +1028,52 @@ public struct Row {
 
     // FIXME: rdar://problem/18673897 // subscript<T>…
 
-    public subscript(column: Expression<Blob>) -> Blob {
+    /*public*/ subscript(column: Expression<Blob>) -> Blob {
         return get(column)
     }
-    public subscript(column: Expression<Blob?>) -> Blob? {
-        return get(column)
-    }
-
-    public subscript(column: Expression<Bool>) -> Bool {
-        return get(column)
-    }
-    public subscript(column: Expression<Bool?>) -> Bool? {
+    /*public*/ subscript(column: Expression<Blob?>) -> Blob? {
         return get(column)
     }
 
-    public subscript(column: Expression<Double>) -> Double {
+    /*public*/ subscript(column: Expression<Bool>) -> Bool {
         return get(column)
     }
-    public subscript(column: Expression<Double?>) -> Double? {
-        return get(column)
-    }
-
-    public subscript(column: Expression<Int>) -> Int {
-        return get(column)
-    }
-    public subscript(column: Expression<Int?>) -> Int? {
+    /*public*/ subscript(column: Expression<Bool?>) -> Bool? {
         return get(column)
     }
 
-    public subscript(column: Expression<Int64>) -> Int64 {
+    /*public*/ subscript(column: Expression<Double>) -> Double {
         return get(column)
     }
-    public subscript(column: Expression<Int64?>) -> Int64? {
+    /*public*/ subscript(column: Expression<Double?>) -> Double? {
         return get(column)
     }
 
-    public subscript(column: Expression<String>) -> String {
+    /*public*/ subscript(column: Expression<Int>) -> Int {
         return get(column)
     }
-    public subscript(column: Expression<String?>) -> String? {
+    /*public*/ subscript(column: Expression<Int?>) -> Int? {
+        return get(column)
+    }
+
+    /*public*/ subscript(column: Expression<Int64>) -> Int64 {
+        return get(column)
+    }
+    /*public*/ subscript(column: Expression<Int64?>) -> Int64? {
+        return get(column)
+    }
+
+    /*public*/ subscript(column: Expression<String>) -> String {
+        return get(column)
+    }
+    /*public*/ subscript(column: Expression<String?>) -> String? {
         return get(column)
     }
 
 }
 
 /// Determines the join operator for a query’s `JOIN` clause.
-public enum JoinType : String {
+/*public*/ enum JoinType : String {
 
     /// A `CROSS` join.
     case Cross = "CROSS"
@@ -1087,7 +1087,7 @@ public enum JoinType : String {
 }
 
 /// ON CONFLICT resolutions.
-public enum OnConflict: String {
+/*public*/ enum OnConflict: String {
 
     case Replace = "REPLACE"
 
@@ -1103,7 +1103,7 @@ public enum OnConflict: String {
 
 // MARK: - Private
 
-public struct QueryClauses {
+/*public*/ struct QueryClauses {
 
     var select = (distinct: false, columns: [Expression<Void>(literal: "*") as Expressible])
 

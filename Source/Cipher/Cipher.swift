@@ -24,11 +24,11 @@
 
 extension Connection {
 
-    public func key(key: String) throws {
+    /*public*/ func key(key: String) throws {
         try check(sqlite3_key(handle, key, Int32(key.utf8.count)))
     }
 
-    public func rekey(key: String) throws {
+    /*public*/ func rekey(key: String) throws {
         try check(sqlite3_rekey(handle, key, Int32(key.utf8.count)))
     }
 

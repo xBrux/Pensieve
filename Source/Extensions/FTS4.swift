@@ -24,11 +24,11 @@
 
 extension Module {
 
-    @warn_unused_result public static func FTS4(column: Expressible, _ more: Expressible...) -> Module {
+    @warn_unused_result /*public*/ static func FTS4(column: Expressible, _ more: Expressible...) -> Module {
         return FTS4([column] + more)
     }
 
-    @warn_unused_result public static func FTS4(var columns: [Expressible] = [], tokenize tokenizer: Tokenizer? = nil) -> Module {
+    @warn_unused_result /*public*/ static func FTS4(var columns: [Expressible] = [], tokenize tokenizer: Tokenizer? = nil) -> Module {
         if let tokenizer = tokenizer {
             columns.append("=".join([Expression<Void>(literal: "tokenize"), Expression<Void>(literal: tokenizer.description)]))
         }
@@ -51,15 +51,15 @@ extension VirtualTable {
     ///
     /// - Returns: An expression appended with a `MATCH` query against the given
     ///   pattern.
-    @warn_unused_result public func match(pattern: String) -> Expression<Bool> {
+    @warn_unused_result /*public*/ func match(pattern: String) -> Expression<Bool> {
         return "MATCH".infix(tableName(), pattern)
     }
 
-    @warn_unused_result public func match(pattern: Expression<String>) -> Expression<Bool> {
+    @warn_unused_result /*public*/ func match(pattern: Expression<String>) -> Expression<Bool> {
         return "MATCH".infix(tableName(), pattern)
     }
 
-    @warn_unused_result public func match(pattern: Expression<String?>) -> Expression<Bool?> {
+    @warn_unused_result /*public*/ func match(pattern: Expression<String?>) -> Expression<Bool?> {
         return "MATCH".infix(tableName(), pattern)
     }
 
@@ -73,27 +73,27 @@ extension VirtualTable {
     /// - Parameter pattern: A pattern to match.
     ///
     /// - Returns: A query with the given `WHERE … MATCH` clause applied.
-    @warn_unused_result public func match(pattern: String) -> QueryType {
+    @warn_unused_result /*public*/ func match(pattern: String) -> QueryType {
         return filter(match(pattern))
     }
 
-    @warn_unused_result public func match(pattern: Expression<String>) -> QueryType {
+    @warn_unused_result /*public*/ func match(pattern: Expression<String>) -> QueryType {
         return filter(match(pattern))
     }
 
-    @warn_unused_result public func match(pattern: Expression<String?>) -> QueryType {
+    @warn_unused_result /*public*/ func match(pattern: Expression<String?>) -> QueryType {
         return filter(match(pattern))
     }
 
 }
 
-public struct Tokenizer {
+/*public*/ struct Tokenizer {
 
-    public static let Simple = Tokenizer("simple")
+    /*public*/ static let Simple = Tokenizer("simple")
 
-    public static let Porter = Tokenizer("porter")
+    /*public*/ static let Porter = Tokenizer("porter")
 
-    @warn_unused_result public static func Unicode61(removeDiacritics removeDiacritics: Bool? = nil, tokenchars: Set<Character> = [], separators: Set<Character> = []) -> Tokenizer {
+    @warn_unused_result /*public*/ static func Unicode61(removeDiacritics removeDiacritics: Bool? = nil, tokenchars: Set<Character> = [], separators: Set<Character> = []) -> Tokenizer {
         var arguments = [String]()
 
         if let removeDiacritics = removeDiacritics {
@@ -113,13 +113,13 @@ public struct Tokenizer {
         return Tokenizer("unicode61", arguments)
     }
 
-    @warn_unused_result public static func Custom(name: String) -> Tokenizer {
+    @warn_unused_result /*public*/ static func Custom(name: String) -> Tokenizer {
         return Tokenizer(Tokenizer.moduleName.quote(), [name.quote()])
     }
 
-    public let name: String
+    /*public*/ let name: String
 
-    public let arguments: [String]
+    /*public*/ let arguments: [String]
 
     private init(_ name: String, _ arguments: [String] = []) {
         self.name = name
@@ -132,7 +132,7 @@ public struct Tokenizer {
 
 extension Tokenizer : CustomStringConvertible {
 
-    public var description: String {
+    /*public*/ var description: String {
         return ([name] + arguments).joinWithSeparator(" ")
     }
 
@@ -140,7 +140,7 @@ extension Tokenizer : CustomStringConvertible {
 
 extension Connection {
 
-    public func registerTokenizer(submoduleName: String, next: String -> (String, Range<String.Index>)?) throws {
+    /*public*/ func registerTokenizer(submoduleName: String, next: String -> (String, Range<String.Index>)?) throws {
         try check(_SQLiteRegisterTokenizer(handle, Tokenizer.moduleName, submoduleName) { input, offset, length in
             let string = String.fromCString(input)!
 

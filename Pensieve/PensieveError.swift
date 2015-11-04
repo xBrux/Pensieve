@@ -3,7 +3,7 @@
 //  SQLite
 //
 //  Created by brux on 11/3/15.
-//  Copyright © 2015 stephencelis. All rights reserved.
+//  Copyright © 2015 brux. All rights reserved.
 //
 
 import UIKit

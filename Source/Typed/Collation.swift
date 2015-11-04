@@ -25,7 +25,7 @@
 /// A collating function used to compare to strings.
 ///
 /// - SeeAlso: <https://www.sqlite.org/datatype3.html#collation>
-public enum Collation {
+/*public*/ enum Collation {
 
     /// Compares string by raw data.
     case Binary
@@ -45,7 +45,7 @@ public enum Collation {
 
 extension Collation : Expressible {
 
-    public var expression: Expression<Void> {
+    /*public*/ var expression: Expression<Void> {
         return Expression(literal: description)
     }
 
@@ -53,7 +53,7 @@ extension Collation : Expressible {
 
 extension Collation : CustomStringConvertible {
 
-    public var description : String {
+    /*public*/ var description : String {
         switch self {
         case Binary:
             return "BINARY"

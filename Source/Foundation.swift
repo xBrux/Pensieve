@@ -24,15 +24,15 @@
 
 extension NSData : Value {
 
-    public class var declaredDatatype: String {
+    /*public*/ class var declaredDatatype: String {
         return Blob.declaredDatatype
     }
 
-    public class func fromDatatypeValue(dataValue: Blob) -> NSData {
+    /*public*/ class func fromDatatypeValue(dataValue: Blob) -> NSData {
         return NSData(bytes: dataValue.bytes, length: dataValue.bytes.count)
     }
 
-    public var datatypeValue: Blob {
+    /*public*/ var datatypeValue: Blob {
         return Blob(bytes: bytes, length: length)
     }
 
@@ -40,15 +40,15 @@ extension NSData : Value {
 
 extension NSDate : Value {
 
-    public class var declaredDatatype: String {
+    /*public*/ class var declaredDatatype: String {
         return String.declaredDatatype
     }
 
-    public class func fromDatatypeValue(stringValue: String) -> NSDate {
+    /*public*/ class func fromDatatypeValue(stringValue: String) -> NSDate {
         return dateFormatter.dateFromString(stringValue)!
     }
 
-    public var datatypeValue: String {
+    /*public*/ var datatypeValue: String {
         return dateFormatter.stringFromDate(self)
     }
 
@@ -57,7 +57,7 @@ extension NSDate : Value {
 /// A global date formatter used to serialize and deserialize `NSDate` objects.
 /// If multiple date formats are used in an application’s database(s), use a
 /// custom `Value` type per additional format.
-public var dateFormatter: NSDateFormatter = {
+/*public*/ var dateFormatter: NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
     formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -69,17 +69,17 @@ public var dateFormatter: NSDateFormatter = {
 
 extension QueryType {
 
-    public subscript(column: Expression<NSData>) -> Expression<NSData> {
+    /*public*/ subscript(column: Expression<NSData>) -> Expression<NSData> {
         return namespace(column)
     }
-    public subscript(column: Expression<NSData?>) -> Expression<NSData?> {
+    /*public*/ subscript(column: Expression<NSData?>) -> Expression<NSData?> {
         return namespace(column)
     }
 
-    public subscript(column: Expression<NSDate>) -> Expression<NSDate> {
+    /*public*/ subscript(column: Expression<NSDate>) -> Expression<NSDate> {
         return namespace(column)
     }
-    public subscript(column: Expression<NSDate?>) -> Expression<NSDate?> {
+    /*public*/ subscript(column: Expression<NSDate?>) -> Expression<NSDate?> {
         return namespace(column)
     }
 
@@ -87,17 +87,17 @@ extension QueryType {
 
 extension Row {
 
-    public subscript(column: Expression<NSData>) -> NSData {
+    /*public*/ subscript(column: Expression<NSData>) -> NSData {
         return get(column)
     }
-    public subscript(column: Expression<NSData?>) -> NSData? {
+    /*public*/ subscript(column: Expression<NSData?>) -> NSData? {
         return get(column)
     }
 
-    public subscript(column: Expression<NSDate>) -> NSDate {
+    /*public*/ subscript(column: Expression<NSDate>) -> NSDate {
         return get(column)
     }
-    public subscript(column: Expression<NSDate?>) -> NSDate? {
+    /*public*/ subscript(column: Expression<NSDate?>) -> NSDate? {
         return get(column)
     }
 

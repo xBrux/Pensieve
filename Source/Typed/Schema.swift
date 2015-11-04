@@ -26,7 +26,7 @@ extension SchemaType {
 
     // MARK: - DROP TABLE / VIEW / VIRTUAL TABLE
 
-    public func drop(ifExists ifExists: Bool = false) -> String {
+    /*public*/ func drop(ifExists ifExists: Bool = false) -> String {
         return drop(Self.identifier, tableName(), ifExists)
     }
 
@@ -36,7 +36,7 @@ extension Table {
 
     // MARK: - CREATE TABLE
 
-    public func create(temporary temporary: Bool = false, ifNotExists: Bool = false, @noescape block: TableBuilder -> Void) -> String {
+    /*public*/ func create(temporary temporary: Bool = false, ifNotExists: Bool = false, @noescape block: TableBuilder -> Void) -> String {
         let builder = TableBuilder()
 
         block(builder)
@@ -49,7 +49,7 @@ extension Table {
         return " ".join(clauses.flatMap { $0 }).asSQL()
     }
 
-    public func create(query: QueryType, temporary: Bool = false, ifNotExists: Bool = false) -> String {
+    /*public*/ func create(query: QueryType, temporary: Bool = false, ifNotExists: Bool = false) -> String {
         let clauses: [Expressible?] = [
             create(Table.identifier, tableName(), temporary ? .Temporary : nil, ifNotExists),
             Expression<Void>(literal: "AS"),
@@ -61,51 +61,51 @@ extension Table {
 
     // MARK: - ALTER TABLE … ADD COLUMN
 
-    public func addColumn<V : Value>(name: Expression<V>, check: Expression<Bool>? = nil, defaultValue: V) -> String {
+    /*public*/ func addColumn<V : Value>(name: Expression<V>, check: Expression<Bool>? = nil, defaultValue: V) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, false, false, check, defaultValue, nil, nil))
     }
 
-    public func addColumn<V : Value>(name: Expression<V>, check: Expression<Bool?>, defaultValue: V) -> String {
+    /*public*/ func addColumn<V : Value>(name: Expression<V>, check: Expression<Bool?>, defaultValue: V) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, false, false, check, defaultValue, nil, nil))
     }
 
-    public func addColumn<V : Value>(name: Expression<V?>, check: Expression<Bool>? = nil, defaultValue: V? = nil) -> String {
+    /*public*/ func addColumn<V : Value>(name: Expression<V?>, check: Expression<Bool>? = nil, defaultValue: V? = nil) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, true, false, check, defaultValue, nil, nil))
     }
 
-    public func addColumn<V : Value>(name: Expression<V?>, check: Expression<Bool?>, defaultValue: V? = nil) -> String {
+    /*public*/ func addColumn<V : Value>(name: Expression<V?>, check: Expression<Bool?>, defaultValue: V? = nil) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, true, false, check, defaultValue, nil, nil))
     }
 
-    public func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, false, unique, check, nil, (table, other), nil))
     }
 
-    public func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, false, unique, check, nil, (table, other), nil))
     }
 
-    public func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, true, unique, check, nil, (table, other), nil))
     }
 
-    public func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, true, unique, check, nil, (table, other), nil))
     }
 
-    public func addColumn<V : Value where V.Datatype == String>(name: Expression<V>, check: Expression<Bool>? = nil, defaultValue: V, collate: Collation) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == String>(name: Expression<V>, check: Expression<Bool>? = nil, defaultValue: V, collate: Collation) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, false, false, check, defaultValue, nil, collate))
     }
 
-    public func addColumn<V : Value where V.Datatype == String>(name: Expression<V>, check: Expression<Bool?>, defaultValue: V, collate: Collation) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == String>(name: Expression<V>, check: Expression<Bool?>, defaultValue: V, collate: Collation) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, false, false, check, defaultValue, nil, collate))
     }
 
-    public func addColumn<V : Value where V.Datatype == String>(name: Expression<V?>, check: Expression<Bool>? = nil, defaultValue: V? = nil, collate: Collation) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == String>(name: Expression<V?>, check: Expression<Bool>? = nil, defaultValue: V? = nil, collate: Collation) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, true, false, check, defaultValue, nil, collate))
     }
 
-    public func addColumn<V : Value where V.Datatype == String>(name: Expression<V?>, check: Expression<Bool?>, defaultValue: V? = nil, collate: Collation) -> String {
+    /*public*/ func addColumn<V : Value where V.Datatype == String>(name: Expression<V?>, check: Expression<Bool?>, defaultValue: V? = nil, collate: Collation) -> String {
         return addColumn(definition(name, V.declaredDatatype, nil, true, false, check, defaultValue, nil, collate))
     }
 
@@ -120,17 +120,17 @@ extension Table {
 
     // MARK: - ALTER TABLE … RENAME TO
 
-    public func rename(to: Table) -> String {
+    /*public*/ func rename(to: Table) -> String {
         return rename(to: to)
     }
 
     // MARK: - CREATE INDEX
 
-    public func createIndex(columns: Expressible...) -> String {
+    /*public*/ func createIndex(columns: Expressible...) -> String {
         return createIndex(columns)
     }
 
-    public func createIndex(columns: [Expressible], unique: Bool = false, ifNotExists: Bool = false) -> String {
+    /*public*/ func createIndex(columns: [Expressible], unique: Bool = false, ifNotExists: Bool = false) -> String {
         let clauses: [Expressible?] = [
             create("INDEX", indexName(columns), unique ? .Unique : nil, ifNotExists),
             Expression<Void>(literal: "ON"),
@@ -143,11 +143,11 @@ extension Table {
 
     // MARK: - DROP INDEX
 
-    public func dropIndex(columns: Expressible...) -> String {
+    /*public*/ func dropIndex(columns: Expressible...) -> String {
         return dropIndex(columns)
     }
 
-    public func dropIndex(columns: [Expressible], ifExists: Bool = false) -> String {
+    /*public*/ func dropIndex(columns: [Expressible], ifExists: Bool = false) -> String {
         return drop("INDEX", indexName(columns), ifExists)
     }
 
@@ -173,7 +173,7 @@ extension View {
 
     // MARK: - CREATE VIEW
 
-    public func create(query: QueryType, temporary: Bool = false, ifNotExists: Bool = false) -> String {
+    /*public*/ func create(query: QueryType, temporary: Bool = false, ifNotExists: Bool = false) -> String {
         let clauses: [Expressible?] = [
             create(View.identifier, tableName(), temporary ? .Temporary : nil, ifNotExists),
             Expression<Void>(literal: "AS"),
@@ -189,7 +189,7 @@ extension VirtualTable {
 
     // MARK: - CREATE VIRTUAL TABLE
 
-    public func create(using: Module, ifNotExists: Bool = false) -> String {
+    /*public*/ func create(using: Module, ifNotExists: Bool = false) -> String {
         let clauses: [Expressible?] = [
             create(VirtualTable.identifier, tableName(), nil, ifNotExists),
             Expression<Void>(literal: "USING"),
@@ -201,125 +201,125 @@ extension VirtualTable {
 
     // MARK: - ALTER TABLE … RENAME TO
 
-    public func rename(to: VirtualTable) -> String {
+    /*public*/ func rename(to: VirtualTable) -> String {
         return rename(to: to)
     }
 
 }
 
-public final class TableBuilder {
+/*public*/ final class TableBuilder {
 
     private var definitions = [Expressible]()
 
-    public func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil) {
+    /*public*/ func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V) {
+    /*public*/ func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil) {
+    /*public*/ func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V) {
+    /*public*/ func column<V : Value>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil) {
+    /*public*/ func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil) {
         column(name, V.declaredDatatype, nil, true, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V?>) {
+    /*public*/ func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V?>) {
         column(name, V.declaredDatatype, nil, true, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V) {
+    /*public*/ func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V) {
         column(name, V.declaredDatatype, nil, true, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil) {
+    /*public*/ func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil) {
         column(name, V.declaredDatatype, nil, true, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V?>) {
+    /*public*/ func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V?>) {
         column(name, V.declaredDatatype, nil, true, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V) {
+    /*public*/ func column<V : Value>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V) {
         column(name, V.declaredDatatype, nil, true, unique, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V>, primaryKey: Bool, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil) {
+    /*public*/ func column<V : Value>(name: Expression<V>, primaryKey: Bool, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil) {
         column(name, V.declaredDatatype, primaryKey ? .Default : nil, false, false, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value>(name: Expression<V>, primaryKey: Bool, check: Expression<Bool?>, defaultValue: Expression<V>? = nil) {
+    /*public*/ func column<V : Value>(name: Expression<V>, primaryKey: Bool, check: Expression<Bool?>, defaultValue: Expression<V>? = nil) {
         column(name, V.declaredDatatype, primaryKey ? .Default : nil, false, false, check, defaultValue, nil, nil)
     }
 
-    public func column<V : Value where V.Datatype == Int64>(name: Expression<V>, primaryKey: PrimaryKey, check: Expression<Bool>? = nil) {
+    /*public*/ func column<V : Value where V.Datatype == Int64>(name: Expression<V>, primaryKey: PrimaryKey, check: Expression<Bool>? = nil) {
         column(name, V.declaredDatatype, primaryKey, false, false, check, nil, nil, nil)
     }
 
-    public func column<V : Value where V.Datatype == Int64>(name: Expression<V>, primaryKey: PrimaryKey, check: Expression<Bool?>) {
+    /*public*/ func column<V : Value where V.Datatype == Int64>(name: Expression<V>, primaryKey: PrimaryKey, check: Expression<Bool?>) {
         column(name, V.declaredDatatype, primaryKey, false, false, check, nil, nil, nil)
     }
 
-    public func column<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) {
+    /*public*/ func column<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) {
         column(name, V.declaredDatatype, nil, false, unique, check, nil, (table, other), nil)
     }
 
-    public func column<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) {
+    /*public*/ func column<V : Value where V.Datatype == Int64>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) {
         column(name, V.declaredDatatype, nil, false, unique, check, nil, (table, other), nil)
     }
 
-    public func column<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) {
+    /*public*/ func column<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, references table: QueryType, _ other: Expression<V>) {
         column(name, V.declaredDatatype, nil, true, unique, check, nil, (table, other), nil)
     }
 
-    public func column<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) {
+    /*public*/ func column<V : Value where V.Datatype == Int64>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, references table: QueryType, _ other: Expression<V>) {
         column(name, V.declaredDatatype, nil, true, unique, check, nil, (table, other), nil)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V>? = nil, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V?>, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: Expression<V?>, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool>? = nil, defaultValue: V, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V>? = nil, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V?>, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: Expression<V?>, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
-    public func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V, collate: Collation) {
+    /*public*/ func column<V : Value where V.Datatype == String>(name: Expression<V?>, unique: Bool = false, check: Expression<Bool?>, defaultValue: V, collate: Collation) {
         column(name, V.declaredDatatype, nil, false, unique, check, defaultValue, nil, collate)
     }
 
@@ -329,15 +329,15 @@ public final class TableBuilder {
 
     // MARK: -
 
-    public func primaryKey<T : Value>(column: Expression<T>) {
+    /*public*/ func primaryKey<T : Value>(column: Expression<T>) {
         primaryKey([column])
     }
 
-    public func primaryKey<T : Value, U : Value>(compositeA: Expression<T>, _ b: Expression<U>) {
+    /*public*/ func primaryKey<T : Value, U : Value>(compositeA: Expression<T>, _ b: Expression<U>) {
         primaryKey([compositeA, b])
     }
 
-    public func primaryKey<T : Value, U : Value, V : Value>(compositeA: Expression<T>, _ b: Expression<U>, _ c: Expression<V>) {
+    /*public*/ func primaryKey<T : Value, U : Value, V : Value>(compositeA: Expression<T>, _ b: Expression<U>, _ c: Expression<V>) {
         primaryKey([compositeA, b, c])
     }
 
@@ -345,23 +345,23 @@ public final class TableBuilder {
         definitions.append("PRIMARY KEY".prefix(composite))
     }
 
-    public func unique(columns: Expressible...) {
+    /*public*/ func unique(columns: Expressible...) {
         unique(columns)
     }
 
-    public func unique(columns: [Expressible]) {
+    /*public*/ func unique(columns: [Expressible]) {
         definitions.append("UNIQUE".prefix(columns))
     }
 
-    public func check(condition: Expression<Bool>) {
+    /*public*/ func check(condition: Expression<Bool>) {
         check(Expression<Bool?>(condition))
     }
 
-    public func check(condition: Expression<Bool?>) {
+    /*public*/ func check(condition: Expression<Bool?>) {
         definitions.append("CHECK".prefix(condition))
     }
 
-    public enum Dependency: String {
+    /*public*/ enum Dependency: String {
 
         case NoAction = "NO ACTION"
 
@@ -375,22 +375,22 @@ public final class TableBuilder {
         
     }
 
-    public func foreignKey<T : Value>(column: Expression<T>, references table: QueryType, _ other: Expression<T>, update: Dependency? = nil, delete: Dependency? = nil) {
+    /*public*/ func foreignKey<T : Value>(column: Expression<T>, references table: QueryType, _ other: Expression<T>, update: Dependency? = nil, delete: Dependency? = nil) {
         foreignKey(column, (table, other), update, delete)
     }
 
-    public func foreignKey<T : Value>(column: Expression<T?>, references table: QueryType, _ other: Expression<T>, update: Dependency? = nil, delete: Dependency? = nil) {
+    /*public*/ func foreignKey<T : Value>(column: Expression<T?>, references table: QueryType, _ other: Expression<T>, update: Dependency? = nil, delete: Dependency? = nil) {
         foreignKey(column, (table, other), update, delete)
     }
 
-    public func foreignKey<T : Value, U : Value>(composite: (Expression<T>, Expression<U>), references table: QueryType, _ other: (Expression<T>, Expression<U>), update: Dependency? = nil, delete: Dependency? = nil) {
+    /*public*/ func foreignKey<T : Value, U : Value>(composite: (Expression<T>, Expression<U>), references table: QueryType, _ other: (Expression<T>, Expression<U>), update: Dependency? = nil, delete: Dependency? = nil) {
         let composite = ", ".join([composite.0, composite.1])
         let references = (table, ", ".join([other.0, other.1]))
 
         foreignKey(composite, references, update, delete)
     }
 
-    public func foreignKey<T : Value, U : Value, V : Value>(composite: (Expression<T>, Expression<U>, Expression<V>), references table: QueryType, _ other: (Expression<T>, Expression<U>, Expression<V>), update: Dependency? = nil, delete: Dependency? = nil) {
+    /*public*/ func foreignKey<T : Value, U : Value, V : Value>(composite: (Expression<T>, Expression<U>, Expression<V>), references table: QueryType, _ other: (Expression<T>, Expression<U>, Expression<V>), update: Dependency? = nil, delete: Dependency? = nil) {
         let composite = ", ".join([composite.0, composite.1, composite.2])
         let references = (table, ", ".join([other.0, other.1, other.2]))
 
@@ -410,7 +410,7 @@ public final class TableBuilder {
 
 }
 
-public enum PrimaryKey {
+/*public*/ enum PrimaryKey {
 
     case Default
 
@@ -418,13 +418,13 @@ public enum PrimaryKey {
 
 }
 
-public struct Module {
+/*public*/ struct Module {
 
     private let name: String
 
     private let arguments: [Expressible]
 
-    public init(_ name: String, _ arguments: [Expressible]) {
+    /*public*/ init(_ name: String, _ arguments: [Expressible]) {
         self.init(name: name.quote(), arguments: arguments)
     }
 
@@ -437,7 +437,7 @@ public struct Module {
 
 extension Module : Expressible {
 
-    public var expression: Expression<Void> {
+    /*public*/ var expression: Expression<Void> {
         return name.wrap(arguments)
     }
 

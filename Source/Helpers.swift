@@ -22,13 +22,13 @@
 // THE SOFTWARE.
 //
 
-public typealias Star = (Expression<Binding>?, Expression<Binding>?) -> Expression<Void>
+/*public*/ typealias Star = (Expression<Binding>?, Expression<Binding>?) -> Expression<Void>
 
-public func *(_: Expression<Binding>?, _: Expression<Binding>?) -> Expression<Void> {
+/*public*/ func *(_: Expression<Binding>?, _: Expression<Binding>?) -> Expression<Void> {
     return Expression(literal: "*")
 }
 
-public protocol _OptionalType {
+/*public*/ protocol _OptionalType {
 
     typealias WrappedType
 
@@ -36,7 +36,7 @@ public protocol _OptionalType {
 
 extension Optional : _OptionalType {
 
-    public typealias WrappedType = Wrapped
+    /*public*/ typealias WrappedType = Wrapped
 
 }
 
