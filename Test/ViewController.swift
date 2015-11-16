@@ -9,6 +9,16 @@
 import UIKit
 import Pensieve
 
+class OBJ: PensieveObject {
+    required init(json: PensieveJSON) {
+        print(json)
+    }
+    
+    func pensieveJSON() -> PensieveJSON {
+        return ["test" : 1, "你" : "好"]
+    }
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -24,6 +34,24 @@ class ViewController: UIViewController {
     
     func test2() {
         let pensieve = Pensieve.sharedPensieve()
+        
+        do {
+            try pensieve.setObject(OBJ(json: PensieveJSON()), forKey: "test")
+        } catch {
+            print(error)
+        }
+        
+        do {
+            try pensieve.setObject(OBJ(json: PensieveJSON()), forKey: "test")
+        } catch {
+            print(error)
+        }
+        
+        let o = (pensieve.objectForKey("test", objectType:OBJ.self) as? OBJ)!
+        print(o)
+        try? pensieve.deleteObjectForKey("test")
+        let o1 = pensieve.objectForKey("test", objectType:OBJ.self)
+        print(o1)
     }
 
 

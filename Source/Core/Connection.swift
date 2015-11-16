@@ -598,7 +598,7 @@ import Dispatch
             return resultCode
         }
 
-        throw error
+        throw PensieveDBError(sqliteError: error)
     }
 
     private var queue = dispatch_queue_create("SQLite.Database", DISPATCH_QUEUE_SERIAL)

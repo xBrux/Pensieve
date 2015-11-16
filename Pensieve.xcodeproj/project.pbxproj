@@ -131,7 +131,10 @@
 		DCE7BBD41B743C970040D364 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE7BB711B7434310040D364 /* libsqlcipher.a */; };
 		DCE7BBD51B743C9C0040D364 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE7BB711B7434310040D364 /* libsqlcipher.a */; };
 		F854CC3A1BE9D5EE009E7830 /* Pensieve.swift in Sources */ = {isa = PBXBuildFile; fileRef = F854CC391BE9D5EE009E7830 /* Pensieve.swift */; };
+		F854CC3D1BE9DFF3009E7830 /* DBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F854CC3C1BE9DFF3009E7830 /* DBAdapter.swift */; };
 		F86881AC1BE8E90600936ACF /* Pensieve.h in Headers */ = {isa = PBXBuildFile; fileRef = F86881A91BE8E90600936ACF /* Pensieve.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F897C0081BF9B5CA00AB99F9 /* PensieveError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F897C0071BF9B5CA00AB99F9 /* PensieveError.swift */; };
+		F897C00A1BF9BB7300AB99F9 /* PensieveObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F897C0091BF9BB7300AB99F9 /* PensieveObject.swift */; };
 		F8AE4B7D1BE89D1E00F5AD2B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE4B7C1BE89D1E00F5AD2B /* AppDelegate.swift */; };
 		F8AE4B7F1BE89D1E00F5AD2B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE4B7E1BE89D1E00F5AD2B /* ViewController.swift */; };
 		F8AE4B821BE89D1E00F5AD2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8AE4B801BE89D1E00F5AD2B /* Main.storyboard */; };
@@ -139,8 +142,8 @@
 		F8AE4B871BE89D1E00F5AD2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8AE4B851BE89D1E00F5AD2B /* LaunchScreen.storyboard */; };
 		F8AE4B8D1BE89D2D00F5AD2B /* Pensieve.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2B29E21B26F718001C60EA /* Pensieve.framework */; };
 		F8AE4B8E1BE89D2D00F5AD2B /* Pensieve.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DC2B29E21B26F718001C60EA /* Pensieve.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F8AE4B941BE8A66E00F5AD2B /* PensieveError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE4B931BE8A66E00F5AD2B /* PensieveError.swift */; };
-		F8AE4B951BE8A66E00F5AD2B /* PensieveError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE4B931BE8A66E00F5AD2B /* PensieveError.swift */; };
+		F8AE4B941BE8A66E00F5AD2B /* PensieveDBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE4B931BE8A66E00F5AD2B /* PensieveDBError.swift */; };
+		F8AE4B951BE8A66E00F5AD2B /* PensieveDBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE4B931BE8A66E00F5AD2B /* PensieveDBError.swift */; };
 		F8E498241BE8F43D00A49641 /* Pensieve-Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = DC461BB71B2E687900E9DABD /* Pensieve-Bridging.m */; };
 /* End PBXBuildFile section */
 
@@ -270,12 +273,15 @@
 		DCE7BBC81B743A320040D364 /* CipherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CipherTests.swift; sourceTree = "<group>"; };
 		DCE7BBCD1B743A9F0040D364 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
 		F854CC391BE9D5EE009E7830 /* Pensieve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pensieve.swift; path = Pensieve/Pensieve.swift; sourceTree = "<group>"; };
+		F854CC3C1BE9DFF3009E7830 /* DBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DBAdapter.swift; path = Pensieve/Adapter/DBAdapter.swift; sourceTree = "<group>"; };
 		F86881A81BE8E90600936ACF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Pensieve/Info.plist"; sourceTree = SOURCE_ROOT; };
 		F86881A91BE8E90600936ACF /* Pensieve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Pensieve.h; path = "Supporting Files/Pensieve/Pensieve.h"; sourceTree = SOURCE_ROOT; };
 		F86881AA1BE8E90600936ACF /* Pensieve.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Pensieve.xcconfig; path = "Supporting Files/Pensieve/Pensieve.xcconfig"; sourceTree = SOURCE_ROOT; };
 		F86881B01BE8E92A00936ACF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/PensieveCipher/Info.plist"; sourceTree = SOURCE_ROOT; };
 		F86881B11BE8E92A00936ACF /* PensieveCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PensieveCipher.h; path = "Supporting Files/PensieveCipher/PensieveCipher.h"; sourceTree = SOURCE_ROOT; };
 		F86881B21BE8E92A00936ACF /* PensieveCipher.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = PensieveCipher.xcconfig; path = "Supporting Files/PensieveCipher/PensieveCipher.xcconfig"; sourceTree = SOURCE_ROOT; };
+		F897C0071BF9B5CA00AB99F9 /* PensieveError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PensieveError.swift; sourceTree = "<group>"; };
+		F897C0091BF9BB7300AB99F9 /* PensieveObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PensieveObject.swift; sourceTree = "<group>"; };
 		F8AE4B7A1BE89D1E00F5AD2B /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AE4B7C1BE89D1E00F5AD2B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8AE4B7E1BE89D1E00F5AD2B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -283,7 +289,7 @@
 		F8AE4B831BE89D1E00F5AD2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8AE4B861BE89D1E00F5AD2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F8AE4B881BE89D1E00F5AD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F8AE4B931BE8A66E00F5AD2B /* PensieveError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PensieveError.swift; path = Pensieve/PensieveError.swift; sourceTree = "<group>"; };
+		F8AE4B931BE8A66E00F5AD2B /* PensieveDBError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PensieveDBError.swift; path = Pensieve/PensieveDBError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -513,6 +519,15 @@
 			path = SQLiteCipher;
 			sourceTree = "<group>";
 		};
+		F854CC3B1BE9DFD2009E7830 /* Adapter */ = {
+			isa = PBXGroup;
+			children = (
+				F8AE4B931BE8A66E00F5AD2B /* PensieveDBError.swift */,
+				F854CC3C1BE9DFF3009E7830 /* DBAdapter.swift */,
+			);
+			name = Adapter;
+			sourceTree = "<group>";
+		};
 		F8AE4B7B1BE89D1E00F5AD2B /* Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,8 +544,10 @@
 		F8AE4B921BE8A61E00F5AD2B /* Pensieve */ = {
 			isa = PBXGroup;
 			children = (
+				F854CC3B1BE9DFD2009E7830 /* Adapter */,
 				F854CC391BE9D5EE009E7830 /* Pensieve.swift */,
-				F8AE4B931BE8A66E00F5AD2B /* PensieveError.swift */,
+				F897C0071BF9B5CA00AB99F9 /* PensieveError.swift */,
+				F897C0091BF9BB7300AB99F9 /* PensieveObject.swift */,
 			);
 			name = Pensieve;
 			sourceTree = "<group>";
@@ -917,12 +934,14 @@
 				DC303D6E1B2CFA1F00469AEA /* Statement.swift in Sources */,
 				DC303D701B2CFA4700469AEA /* Value.swift in Sources */,
 				DC47D0661B52C9D200B12E66 /* Blob.swift in Sources */,
+				F854CC3D1BE9DFF3009E7830 /* DBAdapter.swift in Sources */,
 				F8E498241BE8F43D00A49641 /* Pensieve-Bridging.m in Sources */,
 				DC2D38BE1B2C7A73003EE2F2 /* Expression.swift in Sources */,
 				DC0B8BAD1B497A400084D886 /* Query.swift in Sources */,
 				DCA7B9E81B4D4F30006A9F04 /* Schema.swift in Sources */,
 				F854CC3A1BE9D5EE009E7830 /* Pensieve.swift in Sources */,
 				DCDF55B31B49ACBC00E1A168 /* Collation.swift in Sources */,
+				F897C00A1BF9BB7300AB99F9 /* PensieveObject.swift in Sources */,
 				DC2609C21B475C9900C3E6B5 /* Operators.swift in Sources */,
 				DC0B8BAB1B485B620084D886 /* AggregateFunctions.swift in Sources */,
 				DC2609C41B475CA500C3E6B5 /* CoreFunctions.swift in Sources */,
@@ -930,9 +949,10 @@
 				DC72349E1B49D3AB007F513E /* Setter.swift in Sources */,
 				DC32A7861B575FD7002FFBE2 /* FTS4.swift in Sources */,
 				DC32A7AA1B5AAE76002FFBE2 /* R*Tree.swift in Sources */,
-				F8AE4B941BE8A66E00F5AD2B /* PensieveError.swift in Sources */,
+				F8AE4B941BE8A66E00F5AD2B /* PensieveDBError.swift in Sources */,
 				DC47D0A61B52F5B900B12E66 /* Foundation.swift in Sources */,
 				DCAA22861B4A9CB2005E00A2 /* Helpers.swift in Sources */,
+				F897C0081BF9B5CA00AB99F9 /* PensieveError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -978,7 +998,7 @@
 				DC32A7A41B57672E002FFBE2 /* Setter.swift in Sources */,
 				DC32A7871B575FD7002FFBE2 /* FTS4.swift in Sources */,
 				DC32A7A91B5AAE75002FFBE2 /* R*Tree.swift in Sources */,
-				F8AE4B951BE8A66E00F5AD2B /* PensieveError.swift in Sources */,
+				F8AE4B951BE8A66E00F5AD2B /* PensieveDBError.swift in Sources */,
 				DC47D0A71B52F5B900B12E66 /* Foundation.swift in Sources */,
 				DC32A7A51B57672E002FFBE2 /* Helpers.swift in Sources */,
 			);

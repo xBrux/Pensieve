@@ -36,8 +36,14 @@
         do {
             try connection.check(sqlite3_prepare_v2(connection.handle, SQL, -1, &handle, nil))
         } catch {
-            guard let e = error as? Result else { throw PensieveError.Unknown(message: "Unknown") }
-            throw PensieveError(sqliteError: e)
+            if error is PensieveDBError {
+                throw error
+            }
+            
+            guard let e = error as? Result else {
+                throw PensieveDBError.Unknown(message: "Unknown")
+            }
+            throw PensieveDBError(sqliteError: e)
         }
     }
 
