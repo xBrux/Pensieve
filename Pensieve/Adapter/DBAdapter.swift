@@ -54,5 +54,10 @@ class DBAdapter {
         try db.run(delete.delete())
     }
     
+    func updateWhere(key key:String, newValue : String) throws {
+        let update = primaryTable.filter(keyColumn == key).update(valueColumn <- newValue)
+        try db.run(update)
+    }
+    
     
 }

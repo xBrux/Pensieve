@@ -23,12 +23,16 @@ public final class Pensieve {
         return SharedPensieve
     }
     
-    public func setObject(object:PensieveObject, forKey key:String) throws {
+    public func setObject(object:PensieveObject, forKey key:String, force:Bool = false) throws {
         guard let jsonString = jsonStringFromPensieveJSON(object.pensieveJSON()) else { throw PensieveError.ObjectCouldNotConvertToJSON(key: key) }
         do {
             try dbAdapter.insert(key: key, value: jsonString)
         } catch PensieveDBError.UniqueConstraintFailed {
-            throw PensieveError.ReduplicateKey(key: key)
+            if force {
+                try updateValue(jsonString, forKey: key)
+            } else {
+                throw PensieveError.ReduplicateKey(key: key)
+            }
         } catch let error where error is PensieveDBError {
             throw PensieveError.DatabaseError(error: (error as! PensieveDBError))
         }
@@ -42,17 +46,12 @@ public final class Pensieve {
         }
     }
     
-    public func objectForKey(key: String, objectType:Any.Type) -> PensieveObject? {
-        guard let type = objectType as? PensieveObject.Type else {return nil}
-        if !(objectType is PensieveObject.Type) {
-            return nil
-        }
-        
+    public func objectForKey<P:PensieveObject>(key: String, objectType:P.Type) -> P? {
         guard let jsonString = try? dbAdapter.selectWhere(key: key) else { return nil }
         guard let data = (jsonString as NSString?)?.dataUsingEncoding(NSUTF8StringEncoding) else {return nil}
         guard let json = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) else {return nil}
         guard let pensieveJSON = json as? PensieveJSON else {return nil}
-        return type.init(json: pensieveJSON)
+        return objectType.init(json: pensieveJSON)
     }
     
     
@@ -83,5 +82,9 @@ public final class Pensieve {
         guard NSJSONSerialization.isValidJSONObject(pensieveJSON) else {return nil}
         guard let data = try? NSJSONSerialization.dataWithJSONObject(pensieveJSON, options: .PrettyPrinted) else {return nil}
         return NSString(data: data, encoding: NSUTF8StringEncoding) as String?
+    }
+    
+    private func updateValue(value:String, forKey key:String) throws {
+        try dbAdapter.updateWhere(key: key, newValue: value)
     }
 }
